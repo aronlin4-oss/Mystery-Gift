@@ -1,0 +1,195 @@
+html, body {
+    height: 100%;
+}
+
+body {/*General Layout*/
+    margin: 0;
+    overflow: hidden;
+    background: #39ba96;
+}
+
+#container { /*Contains the cake*/
+    width: 100%;
+    height: 80vh;
+	display: flex;
+    flex-direction: column;
+	justify-content: center;
+    align-items: center;
+	position: relative;
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+}
+
+.Cake {
+    width: 64px;
+    height: 64px;
+    scale: 6;
+    background-image: url("Cake.png");
+    background-repeat: no-repeat;
+    animation: fadeInUp 1s ease-out forwards, play15 1.3s steps(15) infinite;
+    /*Enables both animations to occur*/
+    image-rendering: pixelated;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+    transition: scale 1s;/* Use for .Cake: hover*/
+}
+.Cake:hover {
+    scale: 6.5;
+}
+
+.sprite-holder {
+    width: 40vw;
+    height: 40vh;
+    position: relative;
+    display: grid;
+    place-items: center;
+}
+
+.text {
+    position: relative;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    font-size: clamp(40px, 8vw, 120px);
+    margin: 0;
+    opacity: 0;
+    text-align: center;
+    font-family: Minecraft;
+    transition: opacity 1s;
+    background: linear-gradient(
+        to right,
+        #7953cd 20%,
+        #00affa 30%,
+        #0190cd 70%,
+        #764ada 80%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 500% auto;
+    animation: textShine 5s ease-in-out infinite alternate;
+}
+
+#container.is-on .text { /*Slider affects text*/
+    opacity: 100;
+}
+
+/*Switch*/
+#container2 {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 20vh;
+    position: relative;
+    background-color: rgb(49, 49, 49);
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: min(360px, 80vw);
+
+    height: 64px;
+}
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+/* Slider */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 60px;
+}
+/* Slider knob */
+.slider:before {
+    position: absolute;
+    content: "";
+    width: 64px;
+    height: 64px;
+    left: 0;
+    bottom: 0;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+input:checked + .slider {
+    background-color: #92f8a1;
+}
+input:checked + .slider:before {
+    transform: translateX(calc(min(360px, 80vw) - 64px));
+}
+
+#cheers {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3rem;
+  color: #ff5733;
+  font-weight: bold;
+  opacity: 0;
+  animation: animateText 4s ease-in-out infinite;
+  z-index: 10;
+}
+
+#canvas {
+    /* 1. Take it out of normal document flow */
+    position: fixed; 
+    top: 0;
+    left: 0;
+    
+    /* 2. Force it onto the top stacking layer */
+    z-index: 99999; 
+    
+    /* 3. CRITICAL: Allows users to click on buttons/links underneath the canvas */
+    pointer-events: none; 
+}
+
+@keyframes play15 { 
+    from { background-position: 0px; }
+    to { background-position: -960px; }
+}
+@keyframes fadeInUp {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+}
+@keyframes textShine {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 100% 50%;
+    }
+}
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+@font-face { /*needed for Minecraft font to apply */
+    font-family: 'Minecraft';
+    src: url('Minecraft.ttf');
+}
